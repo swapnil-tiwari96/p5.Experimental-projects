@@ -1,3 +1,6 @@
+//Swapnil Tiwari
+//Expanding circles according the the frequencies on smaller bases.
+
 let circles = [];
 let modes = ["bass", "lowMid", "mid", "highMid", "treble"];
 function preload() {

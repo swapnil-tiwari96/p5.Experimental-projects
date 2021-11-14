@@ -1,3 +1,5 @@
+//Swapnil Tiwari
+//Arcs move according to the music
 function preload() {
   song = loadSound("FLP(VDO) AUDIO 14.wav");
 }
@@ -8,6 +10,7 @@ function keyPressed() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   fft = new p5.FFT(0.8, 128);
+  //creating objects
   arc1 = new manyArcs(windowWidth / 1.2, windowHeight / 1.2 - 40);
   arc2 = new manyArcs(windowWidth / 1.2, windowHeight / 6 + 40);
   arc3 = new manyArcs(windowWidth / 6, windowHeight / 1.2 - 40);
@@ -19,6 +22,8 @@ function setup() {
 function draw() {
   let spectrum = fft.analyze();
   background(0);
+
+  //calling createObject function on arc objects
   arc1.createObjects(1, 2, 3, 4, 5);
   arc2.createObjects(5, 4, 3, 2, 1);
   arc3.createObjects(1, 3, 5, 2, 4);
@@ -27,6 +32,7 @@ function draw() {
   arc6.createObjects(3, 4, 2, 5, 1);
 }
 
+//this class creates one normal arc
 class oneArc {
   constructor(_x, _y, _w, _h) {
     this.x = _x;
@@ -43,11 +49,13 @@ class oneArc {
   }
 }
 
+//this class helps to create many arcs into a single object. Every arc has one different fftEnergy call.
 class manyArcs {
   constructor(_x, _y) {
     this.x = _x;
     this.y = _y;
   }
+  //oneArc object is made here and the function createArc is called to create several arcs.
   createObjects(a, b, c, d, e) {
     let circle5 = new oneArc(this.x, this.y, 60 * e, 60 * e).createArc(
       fft.getEnergy("treble") / 70,

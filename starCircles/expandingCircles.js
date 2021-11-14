@@ -21,6 +21,7 @@ function setup() {
 
 function draw() {
   background(119, 228, 212);
+  //create 500 objects of 4 different kind. The kind depends upon the music frequency.
   for (let i = 1500; i < 2000; i++) {
     circles[i].makeCircle(15, "mid", 50, 193, 205);
   }
@@ -35,22 +36,23 @@ function draw() {
   }
 }
 
+//class objCircle is made. Inputs are the x and y coordinate.
 class objCircle {
   constructor(_x, _y) {
     this.x = _x;
     this.y = _y;
   }
 
+  //function used to analyse the frequency and change the radius accordingly.
   makeCircle(r, mode, r1, g, b) {
     let spectrum = fft.analyze();
     fill(r1, g, b);
-    //noStroke();
     strokeWeight(1);
     stroke(185, 22, 70);
     circle(
       this.x,
       this.y,
-      r + map(fft.getEnergy(`${mode}`) / 2, 0, 64, r, r + 10)
+      r + map(fft.getEnergy(`${mode}`) / 2, 0, 64, r, r + 10) //r is changed according to the frequency.
     );
   }
 }

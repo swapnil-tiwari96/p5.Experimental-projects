@@ -1,4 +1,5 @@
 //Swapnil Tiwari
+//rectangles rotate according to the the music.
 
 let randRects = [];
 let angle = 0;
@@ -8,7 +9,7 @@ function preload() {
 }
 function setup() {
   createCanvas(800, 800);
-  angleMode(DEGREES);
+  angleMode(DEGREES); //angleMode changed from radian(default) to degrees
   amp = new p5.Amplitude();
   song.play();
   for (let i = 0; i < 1000; i++) {
@@ -30,13 +31,14 @@ function draw() {
   background(0);
 
   for (let rans of randRects) {
-    push();
-    rans.rotateRect();
-    rans.createRect();
-    pop();
+    push(); //saves the current drawing style settings and transformations
+    rans.createRect(); //create the rectangle
+    rans.rotateRect(); //rotate the rectangle
+    pop(); //resets the setting
   }
 }
 
+//class randRect createad since many rects are being called here. inputs include from the rect to the rgb inputs.
 class randRect {
   constructor(_x, _y, _w, _h, _r, _g, _b, _rA) {
     this.x = _x;
@@ -48,7 +50,7 @@ class randRect {
     this.b = _b;
     this.rA = _rA;
   }
-
+  //create the rect here
   createRect() {
     noStroke();
     fill(this.r, this.g, this.b, 150);
@@ -56,8 +58,8 @@ class randRect {
   }
 
   rotateRect() {
-    translate(this.x, this.y);
-    let vol = amp.getLevel();
+    translate(this.x, this.y); //translate shifts from the original postition
+    let vol = amp.getLevel(); //returns max amp level
     let bigVol = map(vol, 0, 1, 10, 400);
     rotate(bigVol);
   }
