@@ -1,28 +1,46 @@
 let backS = 0;
 
-function preload() {
+//Uploading the song here
+function preload()
+{
   song = loadSound("weak sick/9 - weak sick - outro-1.wav");
 }
-function keyPressed() {
+
+//any key press will play the song
+function keyPressed()
+{
   song.play();
 }
-function windowResized() {
+
+//Will automatically resize the canvas as per the window
+function windowResized()
+{
   resizeCanvas(windowWidth, windowHeight);
 }
 
-function setup() {
+
+function setup()
+{
+  //creating canvas of the size of the internet window
   createCanvas(windowWidth, windowHeight);
+  //fft - used to isolate audio frequencies
+  //the two parameters are smoothing and amount of bins
   fft = new p5.FFT(0.4, 1024);
   fft1 = new p5.FFT(0.8, 1024);
 }
 
-function draw() {
-  background(255);
-  let spectrum = fft.analyze();
-  let spectrum1 = fft1.analyze();
+function draw()
+{
+  background(255); //bg color
+  let spectrum = fft.analyze(); //storing it as an array
+  let spectrum1 = fft1.analyze(); //storing it as an array
 
-  stroke(0);
-  for (j = 0; j < spectrum1.length; j += 1) {
+  stroke(0); //stroke color
+
+  //for loop for height.
+  for (j = 0; j < spectrum1.length; j += 1)
+  {
+    //maps the spectrum array values from 0-1 to height-0
     let amp1 = map(spectrum1[j], 0, 1, height, 0);
     line(j, height, j, amp1);
     trigerBass(amp1);
@@ -30,17 +48,22 @@ function draw() {
   }
   stroke("#7FFF00");
 
-  for (i = 0; i < spectrum.length; i += 1) {
+  //for loop for width.  
+  for (i = 0; i < spectrum.length; i += 1)
+  {
+    //maps the spectrum array values from 0-1 to width-0
     let amp = map(spectrum[i], 0, 1, width, 0);
-
     line(width, i, amp, i);
     trigerBass(amp);
     trigerMid(amp);
   }
 }
 
-function trigerMid(x) {
-  if (fft.getEnergy("mid") > 150) {
+//function which will be triggered if freq in mid range are above 150
+function trigerMid(x)
+{
+  if (fft.getEnergy("mid") > 150)
+  {
     push();
     fill(0);
     stroke("#FF005C");
@@ -48,7 +71,8 @@ function trigerMid(x) {
     circle(width / 2, height / 2, x / 250);
     //backS = 0;
     pop();
-  } else {
+  } else
+  {
     push();
 
     fill(0);
@@ -59,19 +83,20 @@ function trigerMid(x) {
   }
 }
 
-function trigerBass(x) {
-  if (fft.getEnergy("bass") > 100) {
+//function which will be triggered if freq in bass range aare above 100
+function trigerBass(x)
+{
+  if (fft.getEnergy("bass") > 100)
+  {
     push();
-    //fill(0);
     stroke(0);
     fill("#8946A6");
     rect(width / 2, height / 2, x / 250, x / 250);
-
     pop();
     backS = 0;
-  } else {
+  } else
+  {
     push();
-    //fill(0);
     fill("#FFC900");
     circle(width / 2, height / 2, x / 250);
     pop();
